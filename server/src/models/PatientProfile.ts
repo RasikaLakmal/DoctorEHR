@@ -8,7 +8,7 @@ const PatientProfileSchema: Schema = new Schema(
         last_name: { type: String, required: true },
         dob: { type: Date, required: true },
         gender: { type: String, enum: ['Male', 'Female', 'Other'], required: true },
-        records: [{ type: Schema.Types.ObjectId, ref: 'Record' }]
+        records: [{ type: Schema.Types.ObjectId, ref: 'PatientMedicalRecord' }]
     },
     {
         timestamps: true,

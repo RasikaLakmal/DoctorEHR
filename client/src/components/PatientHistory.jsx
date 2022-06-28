@@ -3,13 +3,13 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import { Button, Stack, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useNavigate,useLocation  } from 'react-router-dom';
+import { useNavigate,useLocation ,Link } from 'react-router-dom';
 import NavigationBar from './NavigationBar';
 import { BiSearchAlt2 } from "react-icons/bi";
 
 function PatientHistory() {
    const [posts, setposts] = useState([]);
-   const [posts1, setposts1] = useState([]);
+   const [singlerecords, setrecords] = useState([]);
    const [error, setError] = useState(null);
    const [requestError, setRequestError] = useState();
    const navigate = useNavigate();
@@ -35,7 +35,10 @@ function PatientHistory() {
          .then((res) => {
              console.log(res);
              setposts(res.data.patient);
+             
+
              console.log(res.data)
+             
          })
          .catch((err) => {
              console.log(err);
@@ -43,14 +46,33 @@ function PatientHistory() {
          });
  }, []);
 
- const dc=(props)=>{
-    const {_id,treatment,complaint,illness,pulse,blood_pressure,weight} = props.records
+ const sendMessage = (_id) => {
+    axios
+    .get(`http://localhost:3005/auth/get_record/${_id}`)
+    //${location.state.phone_no}
+    .then((resp) => {
+        console.log(resp);
+        setrecords(resp.data.record);
+       
 
-    return(
-        <Button key={_id} onClick={()=>props.clickHandler(_id,treatment,complaint,illness,pulse,blood_pressure,weight)}>CreatedAt</Button>
+        console.log(resp.data)
+       
+    })
+    .catch((err) => {
+        console.log(err);
+        setRequestError(err);
+    });
+}
+  
+
+//  const dc=(props)=>{
+//     const {_id,treatment,complaint,illness,pulse,blood_pressure,weight} = props.records
+
+//     return(
+//         <Button key={_id} onClick={()=>props.clickHandler(_id,treatment,complaint,illness,pulse,blood_pressure,weight)}>CreatedAt</Button>
         
-    )
- }
+//     )
+//  }
     return (
        
         <div>
@@ -67,12 +89,20 @@ function PatientHistory() {
                 
                 <div class="card" style={{ width: '77%', marginTop: '1%', marginLeft: '14%',marginRight: '1%', backgroundColor: '#E5E4E2' }}>
             <div class="card-body">
-                <h4 style={{ textAlign: 'left', marginLeft: '5%', marginTop: '1%' }}> {post.first_name}   {post.last_name} |age|{post.phone_no}| {post.gender} </h4>
+                <h4 style={{ textAlign: 'left', marginLeft: '5%', marginTop: '1%' }}> {post.first_name} {post.last_name}  |age|{post.phone_no}| {post.gender} </h4>
                     {' '}
-                    <div><Row><Col sm={4} ><Button  onClick={dc}>{post.records}</Button></Col>
-                    <Col  sm={8}> <div class="card" style={{ width: '100%', marginTop: '1%', marginLeft: '0%',marginRight: '1%', backgroundColor: '#white' }}>
+                    <div><Row>
+                <Col sm={4} >{post.records.map(record => 
+                     <li><a href="#" onClick={()=>sendMessage(record._id)}> 
+                       {record.updatedAt}<br/>
+                    </a></li>)}
+                </Col>
+                <Col  sm={8}> 
+                    <div class="card" style={{ width: '100%', marginTop: '1%', marginLeft: '0%',marginRight: '1%', backgroundColor: '#white' }}>
                             rtgfg
-                            </div></Col></Row>
+                    </div>
+                </Col>
+            </Row>
                         <br />
                        
 
@@ -84,7 +114,12 @@ function PatientHistory() {
         </div><br/>
      
        
-    </div>  </>))}  </div></div>
-    );
+    </div>  </>))} 
+   
+        </div> <div>{singlerecords.map(srecord=>(<> 
+        {srecord._id}{srecord.blood_pressure}
+
+        </>))}</div> </div> 
+      )
 }
 export default PatientHistory;

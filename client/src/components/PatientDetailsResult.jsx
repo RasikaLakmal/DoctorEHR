@@ -92,7 +92,7 @@ function PatientDetailsResult() {
 
     return (
         <div>
-            <NavigationBar2 />
+            <NavigationBar2  phone_no= {phone_no}/>
             <br />
             <Row><Col><h3 style={{ textAlign: 'left', marginLeft: '30%', marginTop: '1%' }}>Patient Details </h3></Col><Col><h3 style={{ textAlign: 'left', marginLeft: '50%',marginRight: '20%', marginTop: '1%' }}><div class="input-group rounded">
   <input type="search" class="form-control rounded" placeholder="Search Patient" aria-label="Search" aria-describedby="search-addon" />
@@ -141,19 +141,19 @@ function PatientDetailsResult() {
                                     </Form.Group>
                                     </Col><Col style={{ width: '75%', marginLeft: '0%', backgroundColor: '#white' }}>
                                    
-                                    
-                                                                        <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Male"/>
+                                    {post.gender}
+                                                                        {/* <div className="form-check form-check-inline">
+                                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value={post.gender}  disabled/>
                                     <label className="form-check-label" for="inlineRadio1">Male</label>
                                     </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Female"/>
+                                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Female" disabled/>
                                     <label className="form-check-label" for="inlineRadio2">Female</label>
                                     </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="Other" />
+                                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="Other" disabled/>
                                     <label className="form-check-label" for="inlineRadio3">Other</label>
-                                    </div>
+                                    </div> */}
                                     </Col>
 
 
@@ -161,10 +161,13 @@ function PatientDetailsResult() {
                                
                             </Row>
                         </div>
-                        <br /></div></div>
+                        </div></div>
                         _______________________________________________________________________________________________________________________________________________________________
-                        <br />
-                        <Form> <div><div><div> <h4 style={{ textAlign: 'left', marginLeft: '5%', marginTop: '1%' }}>Medical Record </h4>
+                        
+                        <Form> <div><div><div> <div class="card" style={{ width: '77%', marginTop: '0%', marginLeft: '14%',marginRight: '1%', backgroundColor: '#E5E4E2' }}>
+                <div class="card-body">
+              
+                    <h4 style={{ textAlign: 'left', marginLeft: '5%', marginTop: '1%' }}>Medical Record </h4>
                         <Row style={{ width: '75%', marginLeft: '15%', marginRight: '15%', backgroundColor: '#white' }}>
                             <Row><Col> <Form.Group className="mb-3" controlId="formBasicName">
                                     <Form.Control  style={{ height: '95px' }} type="textarea" placeholder="Complaint" value={complaint} onChange={(e) => setComplaint(e.target.value)} />
@@ -190,7 +193,7 @@ function PatientDetailsResult() {
                                 </Form.Group></Col><Col></Col></Row>
                             
                         </Row>
-                        </div>
+                       </div> </div></div>
             </div><br/>
             <Form.Group className="mb-3">
                             <Col sm={{ span: 50, offset: 9 }}>

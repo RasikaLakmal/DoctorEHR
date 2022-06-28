@@ -37,6 +37,7 @@ export class PatientUpdateRequestDto {
 export class PatientGetRequestDto {
     constructor(
         public readonly phone_no: string | undefined,
+      //  public readonly _id: string | undefined,
        
     ) {}
 

@@ -65,7 +65,7 @@ const NavLinkStyles = ({isActive}) => {
                                 <BsPeople /><br/> Patient 
                             </NavLink>
                             &nbsp;&nbsp;
-                            <NavLink style={NavLinkStyles} to="/patient_history/:phone_no">
+                            <NavLink style={NavLinkStyles} to="/patient_history/: ${this.props.phone_no} ">
                                 
                                 <BsHourglassSplit /><br/> History
                             </NavLink>

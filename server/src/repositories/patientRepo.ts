@@ -19,6 +19,6 @@ export class PatientRepository {
     // }
 
      async GetPatientRecord(patientData: PatientGetRequestDto) {
-        return await this.db.find({ phone_no: patientData.phone_no })
+        return await this.db.find({ phone_no: patientData.phone_no }).populate('records').exec()
     }
 }

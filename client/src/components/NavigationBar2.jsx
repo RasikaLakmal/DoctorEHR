@@ -7,7 +7,7 @@ import { BsPersonCircle, BsHourglassSplit, BsFillCalendar3Fill, BsPeople } from 
 import axios from 'axios';
 import PatientDetails from './PatientDetails';
 
-function NavigationBar2() {
+function NavigationBar2(props) {
     const [posts, setposts] = useState([]);
     const [requestError, setRequestError] = useState();
     const [error, setError] = useState(null);
@@ -54,6 +54,7 @@ const NavLinkStyles = ({isActive}) => {
     background: isActive ? '#7600dc' : '#f0f0f0',
     }
 }
+
     return (
         <div>
             <Navbar collapseOnSelect expand="lg" bg="light">
@@ -61,11 +62,11 @@ const NavLinkStyles = ({isActive}) => {
                     <Navbar.Collapse>
                         <Nav>
                             &nbsp;&nbsp;
-                            <NavLink style={NavLinkStyles} to="/patient_detailsr/:phone_no">
+                            <NavLink style={NavLinkStyles} to='/patient_detailsr/${this.props.phone_no}'>
                                 <BsPeople /><br/> Patient 
                             </NavLink>
                             &nbsp;&nbsp;
-                            <NavLink style={NavLinkStyles} to="/patient_historyr/:phone_no">
+                            <NavLink style={NavLinkStyles} to="/patient_historyr/${this.props.phone_no}">
                                 
                                 <BsHourglassSplit /><br/> History
                             </NavLink>

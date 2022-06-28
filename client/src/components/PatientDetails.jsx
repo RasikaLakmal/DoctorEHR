@@ -77,6 +77,7 @@ function PatientDetails() {
                 }
             });
     };
+    <h1></h1>
   
     const Search = (search) =>{
         axios.get(`http://localhost:3005/auth/get_patient/${search}`)
@@ -86,32 +87,27 @@ function PatientDetails() {
           }).catch(error=>{
               setError("something is wrong");
           })
-      }
+            }
     return (
         <div>
-            <NavigationBar />
+            <NavigationBar phone_no={phone_no}/>
             <br />
             <Row><Col><h3 style={{ textAlign: 'left', marginLeft: '30%', marginTop: '1%' }}>Patient Details </h3></Col><Col><h3 style={{ textAlign: 'left', marginLeft: '50%',marginRight: '20%', marginTop: '1%' }}>
-                <div class="input-group rounded">
- 
-  <span class="input-group-text border-0" id="search-addon">
-  <Form><Form.Group className="mb-3" controlId="formBasicEmail">
-                      
-                          <Form.Control 
-                                  type="email" 
-                                  placeholder="Search Patient"
-                                  value={search}
-                                  onChange={e=>setSearch(e.target.value)} />
-                      
-                  
-                  <input type="button"
-             
-               
                 
-                onClick={()=>{Search(search)}}  /><BiSearchAlt2/></Form.Group></Form>
-</span>
-  
-</div>
+ 
+                  
+                <Row><Col><Form><Form.Group className="mb-3" controlId="formBasicEmail">
+                                
+                                <Form.Control 
+                                type="email" 
+                                placeholder="Search Patient"
+                                value={search}
+                                onChange={e=>setSearch(e.target.value)} />
+                                <Button 
+                    onClick={()=>{Search(search)}}  ><BiSearchAlt2/></Button></Form.Group></Form></Col> 
+                    
+  </Row>  
+                
                 </h3></Col></Row>
 
             
@@ -153,13 +149,17 @@ function PatientDetails() {
                                         <Form.Control type="date" onChange={(e) => setDOB(e.target.value)} />
                                     </Form.Group>
                                     </Col><Col style={{ width: '75%', marginLeft: '0%', backgroundColor: '#white' }}>
-                                    <Form.Group className="mb-" controlId="formBasicPhoneNo">
+                                    {/* <Form.Group className="mb-" controlId="formBasicPhoneNo">
                                         <Form.Control type="text" placeholder="Gender" value={gender} onChange={(e) => setGender(e.target.value)} />
-                                    </Form.Group>
+                                    </Form.Group> */}
                                    
-
+                                    <Form.Group className="mb-" controlId="formBasicPhoneNo">
+                                        <Form.Check inline type={"radio"} id={"Male"} label={"Male"}    name="group1"  value="Male" onChange={(e) => setGender(e.target.value)} />
+                                        <Form.Check inline type={"radio"} id={"Female"} label={"Female"}   name="group1" value="Female" onChange={(e) => setGender(e.target.value)} />
+                                        <Form.Check inline type={"radio"} id={"Other"} label={"Other"}    name="group1" value="Other"  onChange={(e) => setGender(e.target.value)} />
+                                    </Form.Group>
                                     </Col>
-
+                                  
 
                                     </Row>
                                

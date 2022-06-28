@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document,Types } from 'mongoose';
 
 export default interface IPatientProfile extends Document {
     phone_no: Number;
@@ -6,5 +6,5 @@ export default interface IPatientProfile extends Document {
     last_name: string;
     dob: string;
     gender: string;
-    records:Array<string>;
+    records:Types.Array<string>;
 }
