@@ -15,15 +15,15 @@ router.post('/login', doctorController.doctorLogin);
 
 //CRUD patient
 
-router.post('/patientdetails', patientController.patient);
-router.post('/update_patient/:patientId', patientController.addrecord);
-router.get('/get_patient/:patientId', patientController.getPatient);
-router.get('/get_record/:_id', patientController.getRecord);
+router.post('/patientdetails',authMiddleware, patientController.patient);
+router.post('/update_patient/:patientId',authMiddleware, patientController.addrecord);
+router.get('/get_patient/:patientId', authMiddleware,patientController.getPatient);
+router.get('/get_record/:_id',authMiddleware, patientController.getRecord);
 // router.post('/illnessdetails',authMiddleware, patientDetailsController.addIllnessDetails);
 // router.patch('/update/:_id',  patientDetailsController.updatePatient);
 // router.delete('/delete/:_id', patientDetailsController.deletePatient);
 // router.get('/get/:patientPhone_no', patientDetailsController.findPatient);
-router.get('/getall', patientController.readAllMedicals);
+router.get('/getall',authMiddleware, patientController.readAllMedicals);
 
 //router.post('/test', doctorLoginController.testFunc);
 export default router;

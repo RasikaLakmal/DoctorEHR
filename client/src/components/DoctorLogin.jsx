@@ -15,7 +15,6 @@ function DoctorLogin() {
     const handleCpLogin = () => {
         setError(null);
         setLoading(true);
-
         axios
             .post('http://localhost:3005/auth/login', {
                 d_email: d_email,
@@ -41,6 +40,7 @@ function DoctorLogin() {
                 }
             });
     };
+    
     return (
         <div class="card" style={{ width: '75%', marginTop: '9%', marginLeft: '15%', backgroundColor: '#white' }}>
             <div class="card-body">

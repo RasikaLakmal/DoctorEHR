@@ -1,7 +1,7 @@
 import React, { useState ,useEffect} from 'react';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
-import { Button, Stack, Row, Col ,Input} from 'react-bootstrap';
+import { Button,  Row, Col,Badge } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate ,Link,useLocation} from 'react-router-dom';
 import NavigationBar2 from './NavigationBar2'
@@ -11,22 +11,21 @@ import { BiSearchAlt2 } from "react-icons/bi";
 
 function PatientDetailsResult() {
     const [phone_no, setPN] = useState('');
-    const [first_name, setFName] = useState('');
-    const [last_name, setLName] = useState('');
-    const [gender, setGender] = useState('');
-    const [dob, setDOB] = useState('');
      const [complaint, setComplaint] = useState('');
-     const [illness, setIllness] = useState('');
+     const [illness, setIllness] = useState([]);
      const [blood_pressure, setBloodPressure] = useState('');
      const [weight, setWeight] = useState('');
-     const [treatment, setTreatment] = useState('');
+     const [treatment, setTreatment] = useState([]);
      const [pulse, setPulse] = useState('');
+     const [search,setSearch] =useState('');
      const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [requestError, setRequestError] = useState();
     const navigater = useNavigate();
     const location = useLocation();
+    const [selectillness, setIll] = useState();
+    const [selecttretment, setTreat] = useState();
 
     const userToken = localStorage.getItem('jsonwebtoken');
 
@@ -89,19 +88,49 @@ function PatientDetailsResult() {
             });
     };
 
+    const Search = (search) =>{
+        axios.get(`http://localhost:3005/auth/get_patient/${search}`)
+            .then(response=>{
+            navigater(`/patient_detailsr/${search}`,{state:{phone_no:search}})
+            window.location.reload();
+            }).catch(error=>{
+            setError("something is wrong");
+            })
+            }
+
+            const addIllness = (illl) => {
+                setIllness((illness) => [...illness, illl]);
+                console.log(illness);
+                };
+            const addTreatment = (treat) => {
+                setTreatment((treatment) => [...treatment, treat]);
+                console.log(treatment);
+                };
 
     return (
         <div>
             <NavigationBar2  phone_no= {phone_no}/>
             <br />
-            <Row><Col><h3 style={{ textAlign: 'left', marginLeft: '30%', marginTop: '1%' }}>Patient Details </h3></Col><Col><h3 style={{ textAlign: 'left', marginLeft: '50%',marginRight: '20%', marginTop: '1%' }}><div class="input-group rounded">
-  <input type="search" class="form-control rounded" placeholder="Search Patient" aria-label="Search" aria-describedby="search-addon" />
-  <span class="input-group-text border-0" id="search-addon">
-  <BiSearchAlt2/>
-  </span>
-</div></h3></Col></Row>
+            <Row><Col><h3 style={{ textAlign: 'left', marginLeft: '30%', marginTop: '1%' }}>Patient Details </h3></Col>
+                <Col><h3 style={{ textAlign: 'left', marginLeft: '50%',marginRight: '20%', marginTop: '1%' }}>
+                
+                <Row><Col><Form><Form.Group className="mb-3" controlId="formBasicEmail">
+                                
+                                <Form.Control 
+                                type="email" 
+                                placeholder="Search Patient"
+                                value={search}
+                                onChange={e=>setSearch(e.target.value)} />
+                                <Button 
+                    onClick={()=>{Search(search)}}  ><BiSearchAlt2/></Button></Form.Group></Form></Col> 
+                    
+                </Row>  
+                
+                </h3>
+                </Col>
+            </Row>
 
-            
+           
                     
                     <div class="card" style={{ width: '77%', marginTop: '1%', marginLeft: '14%',marginRight: '1%', backgroundColor: '#E5E4E2' }}>
                 <div class="card-body">
@@ -132,15 +161,15 @@ function PatientDetailsResult() {
                                     <Col> <Form.Group className="mb-" controlId="formBasicPhoneNo">
                                         <Form.Control type="text" value={post.last_name} disabled/>
                                     </Form.Group>
-                                   
+                                
                                     </Col>
                                     </Row>
                                     <Row><Col>
-                                     <Form.Group className="mb-3" controlId="formBasicIssue">
+                                    <Form.Group className="mb-3" controlId="formBasicIssue">
                                         <Form.Control type="text" value={post.dob} disabled/>
                                     </Form.Group>
                                     </Col><Col style={{ width: '75%', marginLeft: '0%', backgroundColor: '#white' }}>
-                                   
+                                
                                     {post.gender}
                                                                         {/* <div className="form-check form-check-inline">
                                     <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value={post.gender}  disabled/>
@@ -157,8 +186,8 @@ function PatientDetailsResult() {
                                     </Col>
 
 
-                                     </Row> </>))}  </div>
-                               
+                                    </Row> </>))}  </div>
+                            
                             </Row>
                         </div>
                         </div></div>
@@ -166,39 +195,83 @@ function PatientDetailsResult() {
                         
                         <Form> <div><div><div> <div class="card" style={{ width: '77%', marginTop: '0%', marginLeft: '14%',marginRight: '1%', backgroundColor: '#E5E4E2' }}>
                 <div class="card-body">
-              
+            
                     <h4 style={{ textAlign: 'left', marginLeft: '5%', marginTop: '1%' }}>Medical Record </h4>
                         <Row style={{ width: '75%', marginLeft: '15%', marginRight: '15%', backgroundColor: '#white' }}>
-                            <Row><Col> <Form.Group className="mb-3" controlId="formBasicName">
-                                    <Form.Control  style={{ height: '95px' }} type="textarea" placeholder="Complaint" value={complaint} onChange={(e) => setComplaint(e.target.value)} />
-                                </Form.Group></Col>
-                                <Col><Row><Col><Form.Group className="mb-3" controlId="formBasicIssue">
-                                    <Form.Control type="number" placeholder="Blood Pressure" value={blood_pressure} onChange={(e) => setBloodPressure(e.target.value)} />
-                                </Form.Group>
-                                <Form.Group className="mb-" controlId="formBasicPhoneNo">
-                                    <Form.Control type="number" placeholder="Weight" value={weight} onChange={(e) => setWeight(e.target.value)} />
-                                </Form.Group></Col> 
-                                <Col> <Form.Group className="mb-" controlId="formBasicPhoneNo">
-                                    <Form.Control type="number" placeholder="Pulse" value={pulse} onChange={(e) => setPulse(e.target.value)} />
-                                </Form.Group></Col></Row>
-                               </Col>
-                                </Row>
-                                <Row >
-                                    <Col >  <Form.Group className="mb-3" controlId="formBasicPhoneNo">
-                                    <Form.Control type="textarea" placeholder="Illness" value={illness} onChange={(e) => setIllness(e.target.value)} />
-                                </Form.Group></Col><Col></Col>
-                                    <Col >
-                                    <Form.Group className="mb-" controlId="formBasicPhoneNo">
-                                    <Form.Control type="textarea" placeholder="Treatment" value={treatment} onChange={(e) => setTreatment(e.target.value)} />
-                                </Form.Group></Col><Col></Col></Row>
+                            <Row>
+                                <Col> 
+                                    <Form.Group className="mb-3" controlId="formBasicName">
+                                        <Form.Control  style={{ height: '95px' }} type="textarea" placeholder="Complaint" value={complaint} onChange={(e) => setComplaint(e.target.value)} />
+                                    </Form.Group>
+                                </Col>
+                                <Col>
+                                    <Row>
+                                        <Col>
+                                            <Form.Group className="mb-3" controlId="formBasicIssue">
+                                                <Form.Control type="number" placeholder="Blood Pressure" value={blood_pressure} onChange={(e) => setBloodPressure(e.target.value)} />
+                                            </Form.Group>
+                                            <Form.Group className="mb-" controlId="formBasicPhoneNo">
+                                                <Form.Control type="number" placeholder="Weight" value={weight} onChange={(e) => setWeight(e.target.value)} />
+                                            </Form.Group>
+                                        </Col> 
+                                        <Col> 
+                                            <Form.Group className="mb-" controlId="formBasicPhoneNo">
+                                                <Form.Control type="number" placeholder="Pulse" value={pulse} onChange={(e) => setPulse(e.target.value)} />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+                            <Row >
+                            <Col >  
+                                            <Form.Group className="mb-3" controlId="formBasicPhoneNo">
+                                            {/* <Form.Control type="textarea" placeholder="Illness" value={illness} onChange={(e) => setIllness(e.target.value)} /> */}
+                                            <Form.Label><b>Illness</b></Form.Label>
+                                            <br></br>
+                                            <select
+                                            value={selectillness}
+                                            onChange={(e) => addIllness(e.target.value)}>
+                                            <option>Fever</option>
+                                            <option>Shorteness of breath</option>
+                                            <option>weekness of fatigue</option>
+                                            </select>
+                                            </Form.Group>{illness.map((element, index) => (
+                                            <Badge mb="3" className="mt-3 mx-1" pill bg="primary" key={index}>
+                                            {element}
+                                            </Badge>
+                                                ))}
+                                            </Col>
+                                <Col></Col>
+                                <Col >
+                                        <Form.Group className="mb-" controlId="formBasicPhoneNo">
+                                            {/* <Form.Control type="textarea" placeholder="Treatment" value={treatment} onChange={(e) => setTreatment(e.target.value)} /> */}
+                                            <Form.Label><b>Treatment</b></Form.Label>
+                                                <br></br>
+                                                <select
+                                                value={selecttretment}
+                                                onChange={(e) => addTreatment(e.target.value)}>
+                                                <option>Electrofiagram</option>
+                                                <option>Holter monitering</option>
+                                                <option>Ecocardiogram</option>
+                                                </select>
+                                        </Form.Group>
+                                            {treatment.map((element, index) => (
+                                                <Badge mb="3" className="mt-3 mx-1" pill bg="info" key={index}>
+                                                {element}
+                                                </Badge>
+                                            ))}
+                                        
+                                    </Col>
+                                <Col></Col>
+                            </Row>
                             
                         </Row>
-                       </div> </div></div>
+                        </div> </div></div>
             </div><br/>
-            <Form.Group className="mb-3">
+                        <Form.Group className="mb-3">
                             <Col sm={{ span: 50, offset: 9 }}>
                                 <Link to="/patient_details">
-                                    <Button variant="light">Close</Button>
+                                    <Button  variant="outline-dark" onClick={()=> navigater(`/patient_details`)}>Close</Button>
                                 </Link>
                                 &nbsp;&nbsp;
                                 <Button className="button" type="submit" value={loading ? 'Loading...' : 'Sumbit'} disabled={loading} onClick={handleAddIssues}>

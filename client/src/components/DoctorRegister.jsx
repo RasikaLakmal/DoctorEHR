@@ -17,7 +17,6 @@ function DoctorRegister() {
     const handleCpRegister = () => {
         setError(null);
         setLoading(true);
-
         axios
             .post('http://localhost:3005/auth/register', { d_email: d_email, name: name, phone_no: phone_no, password: password })
             .then((response) => {
@@ -33,7 +32,7 @@ function DoctorRegister() {
                     setError('Invalid input');
                 }
             });
-        navigater('/patient_details');
+        navigater('/doctor_login');
         window.location.reload();
     };
     return (

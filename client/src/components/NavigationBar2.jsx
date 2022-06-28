@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import { Container, Nav } from 'react-bootstrap';
 import { Link ,NavLink } from 'react-router-dom';
-import { MdNotifications } from 'react-icons/md';
-import { BsPersonCircle, BsHourglassSplit, BsFillCalendar3Fill, BsPeople } from 'react-icons/bs';
+import { BsPersonCircle, BsHourglassSplit,  BsPeople } from 'react-icons/bs';
 import axios from 'axios';
-import PatientDetails from './PatientDetails';
 
 function NavigationBar2(props) {
     const [posts, setposts] = useState([]);
-    const [requestError, setRequestError] = useState();
-    const [error, setError] = useState(null);
-    const [isActive,setActive] = useState("patient_details")
-
+   const phn= props.phone_no
     const userToken = localStorage.getItem('ujsonwebtoken');
 
     axios.interceptors.request.use(
@@ -41,7 +36,7 @@ function NavigationBar2(props) {
 
     const logout = async () => {
         try {
-            localStorage.removeItem('ujsonwebtoken');
+            localStorage.removeItem('jsonwebtoken');
         } catch (error) {
             console.log(error);
         }
@@ -62,11 +57,11 @@ const NavLinkStyles = ({isActive}) => {
                     <Navbar.Collapse>
                         <Nav>
                             &nbsp;&nbsp;
-                            <NavLink style={NavLinkStyles} to='/patient_detailsr/${this.props.phone_no}'>
+                            <NavLink style={NavLinkStyles} to='/patient_details'>
                                 <BsPeople /><br/> Patient 
                             </NavLink>
                             &nbsp;&nbsp;
-                            <NavLink style={NavLinkStyles} to="/patient_historyr/${this.props.phone_no}">
+                            <NavLink style={NavLinkStyles} to="/patient_historyr">
                                 
                                 <BsHourglassSplit /><br/> History
                             </NavLink>
