@@ -1,4 +1,4 @@
-import { DoctorCreateRequestDto } from '../dto/doctor.dto';
+import { DoctorCreateRequestDto ,DoctorGetRequestDto} from '../dto/doctor.dto';
 import { DoctorRepository } from '../repositories/doctorRepo';
 //import { DoctorLoginRequestDto } from '../dto/doctorLogin.dto';
 
@@ -16,4 +16,10 @@ export class DoctorService {
 
     //     return DoctorLoginRequestDto.from(doctor);
     // }
+
+    async GetDoctor(patientData: DoctorGetRequestDto) {
+        const doctor = await this.doctorRepo.GetDoctor(patientData);
+
+        return doctor;
+    }
 }

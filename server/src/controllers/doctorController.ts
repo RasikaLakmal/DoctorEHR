@@ -1,4 +1,4 @@
-import { DoctorCreateRequestDto } from '../dto/doctor.dto';
+import { DoctorCreateRequestDto,DoctorGetRequestDto } from '../dto/doctor.dto';
 import { DoctorRepository } from '../repositories/doctorRepo';
 import { DoctorService } from '../services/DoctorServices';
 import { Request, Response,NextFunction } from 'express';
@@ -79,5 +79,26 @@ exports.doctorLogin = async (req: Request, res: Response, next: NextFunction) =>
         })
         .catch((error) => res.status(500).json({ error }));
 }
+
+exports.getEmail = async (req: Request, res: Response, next: NextFunction) =>{
+
+    let name = res.locals.jwt.d_email
+    return res.status(200).json({
+        name:name
+    });
+}
+
+exports.getName = async (req: Request, res: Response) => {
+
+    const DoctorId= res.locals.jwt.d_email
+
+    let doctorGetRequestDto: DoctorGetRequestDto = new DoctorGetRequestDto(DoctorId);
+
+    const patient = await doctorService.GetDoctor(doctorGetRequestDto);
+    console.log(patient)
+    res.status(201).json({
+    patient
+});
+};
 
 

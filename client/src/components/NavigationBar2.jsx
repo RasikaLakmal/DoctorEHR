@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, {  useState,useEffect } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import { Container, Nav } from 'react-bootstrap';
 import { Link ,NavLink } from 'react-router-dom';
@@ -7,6 +7,7 @@ import axios from 'axios';
 
 function NavigationBar2(props) {
     const [posts, setposts] = useState([]);
+    const [requestError, setRequestError] = useState();
    const phn= props.phone_no
     const userToken = localStorage.getItem('ujsonwebtoken');
 
@@ -21,18 +22,19 @@ function NavigationBar2(props) {
         }
     );
 
-    // useEffect(() => {
-    //     axios
-    //         .get('http://localhost:3001/api/issue/username', {})
-    //         .then((res) => {
-    //             console.log(res);
-    //             setposts(res.data);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //             setRequestError(err);
-    //         });
-    // }, []);
+    useEffect(() => {
+        axios
+            .get('http://localhost:3005/auth/getName', {})
+            .then((res) => {
+                console.log(res);
+                setposts(res.data.patient);
+                console.log(res.data.patient);
+            })
+            .catch((err) => {
+                console.log(err);
+                setRequestError(err);
+            });
+    }, []);
 
     const logout = async () => {
         try {

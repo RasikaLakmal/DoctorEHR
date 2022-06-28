@@ -1,6 +1,7 @@
 import { Router } from "express";
 import authMiddleware from '../middleware/authMiddleware'
 
+
 const doctorController = require('../controllers/doctorController');
 //const patientDetailsController = require('../controllers/patientDetailsController');
 const patientController = require('../controllers/patientController');
@@ -11,6 +12,7 @@ const router = Router();
 
 router.post("/register", doctorController.doctorRegister);
 router.post('/login', doctorController.doctorLogin);
+router.get('/getName',authMiddleware, doctorController.getName );
 //router.get('/getalld', authMiddleware, doctorLoginController.readAllDoctors);
 
 //CRUD patient

@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, {  useState,useEffect } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import { Container, Nav } from 'react-bootstrap';
 import { Link ,NavLink } from 'react-router-dom';
@@ -7,6 +7,7 @@ import axios from 'axios';
 
 function NavigationBar() {
     const [posts, setposts] = useState([]);
+    const [requestError, setRequestError] = useState();
 
     const userToken = localStorage.getItem('ujsonwebtoken');
 
@@ -21,18 +22,19 @@ function NavigationBar() {
         }
     );
 
-    // useEffect(() => {
-    //     axios
-    //         .get('http://localhost:3001/api/issue/username', {})
-    //         .then((res) => {
-    //             console.log(res);
-    //             setposts(res.data);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //             setRequestError(err);
-    //         });
-    // }, []);
+    useEffect(() => {
+        axios
+            .get('http://localhost:3005/auth/getName', {})
+            .then((res) => {
+                console.log(res);
+                setposts(res.data.patient);
+                console.log(res.data.patient);
+            })
+            .catch((err) => {
+                console.log(err);
+                setRequestError(err);
+            });
+    }, []);
 
     const logout = async () => {
         try {
@@ -69,7 +71,7 @@ const NavLinkStyles = ({isActive}) => {
                     <Navbar.Collapse className="justify-content-end">
                         <Nav>
                             <Link className="btn btn-outline-secondary rounded " to="/" style={{ marginTop: '30px' }} onClick={() => logout()}>
-                                {posts.map((post) => post.name)} <BsPersonCircle />
+                            {posts.map((post) => post.name)} <BsPersonCircle />
                             </Link>
                             <br />
                         </Nav>
